@@ -38,16 +38,22 @@ const config = ({
   // connectionString:process.env.DATABASE_URL,
 
 
-  server: 'nishkam84.database.windows.net',
-  database: 'Sikligar',
-  user: 'nishkam2025',
-  password: 'kQWvUC#wjjAJe3K',
+  // server: 'nishkam84.database.windows.net',
+  // database: 'Sikligar',
+  // user: 'nishkam2025',
+  // password: 'kQWvUC#wjjAJe3K',
+  server: 'impactdb01.database.windows.net',
+  database: 'GSK',
+  user: 'impactxm',
+  password: 'Y@uJk7%!MN7u3$n',
   options: {
     encrypt: true
   }
 });
 var router = express.Router();
 router.all(cors());
+
+
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
