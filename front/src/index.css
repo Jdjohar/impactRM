@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+b {
+  font-weight: 200;
+  color: #616161;
+  text-decoration: inherit;
+}
+
