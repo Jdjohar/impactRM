@@ -125,7 +125,7 @@ router.post("/api/v1/addParticipantData", async (req, res) => {
     console.log("Participant data inserted successfully");
 
     res.status(200).json({
-      data:query,
+      data:data,
       status: "success",
       message: "Data inserted successfully",
     });
