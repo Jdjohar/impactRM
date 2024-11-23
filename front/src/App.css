@@ -4,14 +4,33 @@
   box-sizing: border-box;
 }
 
+.cloud{
+  background-image: url('../public/Clouds.png') !important;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: 100%;
+}
 
+
+.inter-r {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+}
+
+@media (min-width: 768px) {
+  .cloud{
+    
+     background-size: inherit;
+  }
+}
 /* @page{
   size: 2.0in 5.5in; 
   margin: 0;
 } */
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+  font-family: "Inter", sans-serif;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif */
 }
 
 header {

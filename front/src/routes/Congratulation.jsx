@@ -33,36 +33,31 @@ export default function PromotionalCard() {
   return (
     <>
       <Header />
+      {console.log(clouds,"clouds Image path")}
       <div
-        className="flex items-center justify-center bg-[#202c5e] p-4 relative"
-        style={{
-        //   minHeight: "100vh", // Full page height
-          backgroundImage: `url(${clouds})`, 
-          backgroundRepeat: "no-repeat", // Do not repeat the image
-          backgroundPosition: "bottom", // Position the image at the bottom
-          
-        }}
+        className="flex items-center justify-center bg-[#202c5e]  relative"
+        
       >
-        <div className="max-w-md rounded-lg  p-6 text-center text-white">
+        <div className="max-w-md rounded-lg  text-center text-white">
           <h2
             style={{ fontSize: "30px" }}
-            className="mb-2 pb-5 font-semibold"
+            className="mb-2 p-4 pb-5 font-semibold"
           >
             Thank you for visiting Rubrik Booth #1948 at AWS re:Invent.
           </h2>
-          <img src={cong} className="py-5" alt="Congratulations" />
-          <p className="mb-4 pt-5 text-white">
+          <img src={cong} className="py-5 m-auto d-block" alt="Congratulations" />
+          <p className="mb-4 p-4 pt-5 text-white">
             You have been selected to receive a{" "}
             <span className="font-bold">FREE</span> pair of customized Nike Dunk
             shoes from Rubrik.
           </p>
-          <p className="mb-6">
+          <p className="mb-6  p-4">
             Please enter the PIN code from your text message to confirm your
             shipping details and select your customization options.
           </p>
 
           {/* OTP Input Fields */}
-          <div className="mb-6 flex justify-center space-x-2">
+          <div className="mb-6   p-4 flex justify-center space-x-2">
             {otp.map((digit, index) => (
               <input
                 key={index}
@@ -80,10 +75,12 @@ export default function PromotionalCard() {
           <button
             onClick={handleSubmit}
             style={{marginBottom:'150px'}}
-            className="rounded-md mb-5 bg-white px-4 py-2 font-medium text-[#1a2a5e] shadow hover:bg-gray-100"
+            className="rounded-md mb-5  p-4 bg-white px-4 py-2 font-medium text-[#1a2a5e] shadow hover:bg-gray-100"
           >
             Walk with Confidence
           </button>
+
+          <img src={clouds}  style={{width:'100%'}}/>
         </div>
       </div>
     </>
