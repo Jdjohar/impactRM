@@ -43,7 +43,7 @@ const config = ({
   // user: 'nishkam2025',
   // password: 'kQWvUC#wjjAJe3K',
   server: 'impactdb01.database.windows.net',
-  database: 'GSK',
+  database: 'Rubrik',
   user: 'impactxm',
   password: 'Y@uJk7%!MN7u3$n',
   options: {
@@ -114,7 +114,7 @@ router.post("/api/v1/addParticipantData", async (req, res) => {
 
     // SQL Query to insert data into the Participant_OUSHCP table
     const query =
-      "INSERT INTO Participant_OUSHCP (json) VALUES (@data)";
+      "INSERT INTO Participant (json) VALUES (@data)";
 
     // Add input parameter for the JSON data
     request.input("data", sql.NVarChar, JSON.stringify(data));
