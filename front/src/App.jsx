@@ -23,7 +23,7 @@ function App() {
         <Route exact path='/product' element={<Product />}/>
         <Route exact path='/size' element={<Size />}/>
         <Route exact path='/colors' element={<Colors />}/>
-        <Route exact path='/choise' element={<Choice />}/>
+        <Route exact path='/choices' element={<Choice />}/>
         <Route exact path='/thanks' element={<Thanks />}/>
         </Routes>
         </Router>
