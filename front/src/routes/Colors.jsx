@@ -51,9 +51,9 @@ function ShoeColorSelector() {
     'Swoosh',
     'Collar',
     'Eyestay',
-    'Tongue/Lining',
+    'TongueLining',
     'Backtab',
-    'Backab logo',
+    'BacktabLogo',
     'Laces'
   ];
 
