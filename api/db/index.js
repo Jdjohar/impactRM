@@ -10,10 +10,10 @@ const config =({
   // database: 'Nishkam',
   // user: 'nishkamadmin84',
   // password: 'L6RDe#Lsw41d',
-  server:'nishkam84.database.windows.net',
-  database:'Sikligar',
-  user:'nishkam2025',
-  password:'kQWvUC#wjjAJe3K',
+  server: 'impactdb01.database.windows.net',
+  database: 'Rubrik',
+  user: 'impactxm',
+  password: 'Y@uJk7%!MN7u3$n',
   options: {
     encrypt: true // For secure connection
   }
@@ -24,7 +24,7 @@ sql.connect(config)
     console.log('Connected to the Azure SQL Database Sikligar');
 
     // Execute a query
-    return sql.query`SELECT * FROM StudentData`;
+    return sql.query`SELECT * FROM Participant`;
   })
   .then(result => {
     // console.log('Query result:', result.recordset);

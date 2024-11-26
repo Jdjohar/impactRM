@@ -95,7 +95,7 @@ router.get("/ics.js", (req, res) => {
 });
 
 router.get("/api/v1/testapi", async (req, res) => {
-  
+
   const name = "Test API - Success";
   res.status(200).json({
     status: "succes",
@@ -125,7 +125,7 @@ router.post("/api/v1/addParticipantData", async (req, res) => {
     console.log("Participant data inserted successfully");
 
     res.status(200).json({
-      data:data,
+      data: data,
       status: "success",
       message: "Data inserted successfully",
     });
@@ -141,31 +141,90 @@ router.post("/api/v1/addParticipantData", async (req, res) => {
   }
 });
 
-
-//add ParticipantData
-router.post("/api/v1/updateParticipantData", async (req, res) => {
+router.post("/api/v1/getParticipantDataByPin", async (req, res) => {
   try {
     await sql.connect(config);
 
     const request = new sql.Request();
-    const { data } = req.body;
+    const { pin } = req.body; // Extract the PIN from the request body
 
-    // SQL Query to insert data into the Participant_OUSHCP table
+    // SQL Query to retrieve the id and json fields from the Participant table where the PIN matches
+    const query = "SELECT id, json FROM Participant WHERE pin = @pin";
+
+    // Add input parameter for the PIN
+    request.input("pin", sql.NVarChar, pin);
+
+    // Execute the query
+    const result = await request.query(query);
+
+    // Check if a record was found
+    if (result.recordset.length > 0) {
+      const participantRecord = result.recordset[0]; // Get the first record
+      const participantId = participantRecord.id; // Extract id
+      const participantData = participantRecord.json; // Extract json field
+
+      console.log(participantRecord, "Participant data retrieved successfully");
+
+      res.status(200).json({
+        status: "success",
+        id: participantId, // Include id in the response
+        data: JSON.parse(participantData), // Parse and include JSON data
+        message: "Data retrieved successfully",
+      });
+    } else {
+      console.error("No participant found with the given PIN");
+
+      res.status(404).json({
+        status: "failed",
+        message: "No participant found with the given PIN",
+      });
+    }
+  } catch (error) {
+    console.error("Error retrieving data:", error);
+
+    res.status(400).json({
+      status: "failed",
+      message: "Error retrieving data",
+      error: error.message,
+    });
+  } finally {
+    sql.close();
+  }
+});
+
+// Update ParticipantData
+router.put("/api/v1/updateParticipantData", async (req, res) => {
+  try {
+    // Connect to the database
+    await sql.connect(config);
+
+    const request = new sql.Request();
+    const { data, id } = req.body; // ID and data from the request body
+
+    if (!id) {
+      return res.status(400).json({
+        status: "failed",
+        message: "ID is required to update the participant data",
+      });
+    }
+
+    // SQL Query to update data in the Participant table based on ID
     const query =
-      "update Participant set choices=@data where id=1000";
+      "UPDATE Participant SET json = @data WHERE id = @id";
 
-    // Add input parameter for the JSON data
+    // Add input parameters for the JSON data and ID
     request.input("data", sql.NVarChar, JSON.stringify(data));
+    request.input("id", sql.Int, id);
 
     // Execute the query
     await request.query(query);
 
-    console.log("Participant data updated successfully");
+    console.log(`Participant data with ID ${id} updated successfully`);
 
     res.status(200).json({
-      data:data,
+      data: data,
       status: "success",
-      message: "Data updated successfully",
+      message: `Data for participant with ID ${id} updated successfully`,
     });
   } catch (error) {
     console.error("Error updating data:", error);
@@ -176,6 +235,175 @@ router.post("/api/v1/updateParticipantData", async (req, res) => {
     });
   } finally {
     sql.close();
+  }
+});
+
+// Update ParticipantData
+router.put("/api/v1/size", async (req, res) => {
+  try {
+    // Connect to the database
+    await sql.connect(config);
+
+    const { data, id } = req.body; // ID and data from the request body
+
+    // Validation: Check if both id and data are provided
+    if (!id || !data) {
+      return res.status(400).json({
+        status: "failed",
+        message: "Both 'id' and 'data' are required to update the participant size.",
+      });
+    }
+
+    // SQL Query to update the 'size' field in the Participant table based on ID
+    const query = "UPDATE Participant SET size = @data WHERE id = @id";
+
+    // Create a new request object
+    const request = new sql.Request();
+    request.input("data", sql.NVarChar, data);
+    request.input("id", sql.Int, id);
+
+    // Execute the query
+    const result = await request.query(query);
+
+    // Check if any rows were affected (i.e., if the ID exists in the table)
+    if (result.rowsAffected[0] === 0) {
+      return res.status(404).json({
+        status: "failed",
+        message: `No participant found with ID ${id}`,
+      });
+    }
+
+    console.log(`Size data for participant ID ${id} updated successfully`);
+
+    // Send a successful response
+    res.status(200).json({
+      status: "success",
+      message: `Size for participant with ID ${id} updated successfully`,
+      data: data, // Include the updated data in the response
+    });
+  } catch (error) {
+    console.error("Error updating data:", error);
+
+    // Send an error response
+    res.status(500).json({
+      status: "failed",
+      message: "Error updating participant data",
+      error: error.message,
+    });
+  } finally {
+    sql.close(); // Ensure the SQL connection is always closed
+  }
+});
+
+//add choices
+router.put("/api/v1/colors", async (req, res) => {
+  try {
+    // Connect to the database
+    await sql.connect(config);
+
+    const { data, id } = req.body; // ID and data from the request body
+
+    // Validation: Check if both id and data are provided
+    if (!id || !data) {
+      return res.status(400).json({
+        status: "failed",
+        message: "Both 'id' and 'data' are required to update the participant size.",
+      });
+    }
+
+    // SQL Query to update the 'size' field in the Participant table based on ID
+    const query = "UPDATE Participant SET colors = @data WHERE id = @id";
+
+    // Create a new request object
+    const request = new sql.Request();
+    request.input("data", sql.NVarChar, JSON.stringify(data));
+    request.input("id", sql.Int, id);
+
+    // Execute the query
+    const result = await request.query(query);
+
+    // Check if any rows were affected (i.e., if the ID exists in the table)
+    if (result.rowsAffected[0] === 0) {
+      return res.status(404).json({
+        status: "failed",
+        message: `No participant found with ID ${id}`,
+      });
+    }
+
+    console.log(`Size data for participant ID ${id} updated successfully`);
+
+    // Send a successful response
+    res.status(200).json({
+      status: "success",
+      message: `Size for participant with ID ${id} updated successfully`,
+      data: data, // Include the updated data in the response
+    });
+  } catch (error) {
+    console.error("Error updating data:", error);
+
+    // Send an error response
+    res.status(500).json({
+      status: "failed",
+      message: "Error updating participant data",
+      error: error.message,
+    });
+  } finally {
+    sql.close(); // Ensure the SQL connection is always closed
+  }
+});
+router.put("/api/v1/choices", async (req, res) => {
+  try {
+    // Connect to the database
+    await sql.connect(config);
+
+    const { data, id } = req.body; // ID and data from the request body
+
+    // Validation: Check if both id and data are provided
+    if (!id || !data) {
+      return res.status(400).json({
+        status: "failed",
+        message: "Both 'id' and 'data' are required to update the participant size.",
+      });
+    }
+
+    // SQL Query to update the 'size' field in the Participant table based on ID
+    const query = "UPDATE Participant SET choices = @data WHERE id = @id";
+
+    // Create a new request object
+    const request = new sql.Request();
+    request.input("data", sql.NVarChar, JSON.stringify(data));
+    request.input("id", sql.Int, id);
+
+    // Execute the query
+    const result = await request.query(query);
+
+    // Check if any rows were affected (i.e., if the ID exists in the table)
+    if (result.rowsAffected[0] === 0) {
+      return res.status(404).json({
+        status: "failed",
+        message: `No participant found with ID ${id}`,
+      });
+    }
+
+    console.log(`Size data for participant ID ${id} updated successfully`);
+
+    // Send a successful response
+    res.status(200).json({
+      status: "success",
+      message: `Size for participant with ID ${id} updated successfully`,
+      data: data, // Include the updated data in the response
+    });
+  } catch (error) {
+    console.error("Error updating data:", error);
+
+    // Send an error response
+    res.status(500).json({
+      status: "failed",
+      message: "Error updating participant data",
+      error: error.message,
+    });
+  } finally {
+    sql.close(); // Ensure the SQL connection is always closed
   }
 });
 

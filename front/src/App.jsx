@@ -14,11 +14,13 @@ import Size from './routes/Size'
 import Colors from './routes/Colors'
 import Choice from './routes/Choices'
 import Thanks from './routes/Thanks'
+import ConfirmForm from './routes/ConfirmForm'
 function App() {
     return (
         <Router>
         <Routes>
         <Route exact path='/' element={<Form />}/>
+        <Route exact path='/confirmdetails' element={<ConfirmForm />}/>
         <Route exact path='/congratulation' element={<PromotionalCard />}/>
         <Route exact path='/product' element={<Product />}/>
         <Route exact path='/size' element={<Size />}/>

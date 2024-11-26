@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
-// import Image from 'next/image';
 import { ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import icon from "../../public/ScrollIcon.png";
-
 import a30 from "../../public/colors/Asset 30.png";
 import a31 from "../../public/colors/Asset 31.png";
 import a32 from "../../public/colors/Asset 32.png";
@@ -19,6 +18,8 @@ import a41 from "../../public/colors/Asset 41.png";
 import a42 from "../../public/colors/Asset 42.png";
 import Header from '../components/Header';
 
+
+// Dropdown color options
 const colorOptions = [
   { value: 'Black', label: 'Black', image: a41 },
   { value: 'White', label: 'White', image: a42 },
@@ -27,7 +28,7 @@ const colorOptions = [
   { value: 'Sesame', label: 'Sesame', image: a38 },
   { value: 'Sundail', label: 'Sundail', image: a37 },
   { value: 'Baltic Blue', label: 'Baltic Blue', image: a36 },
-  { value: 'Racer Blue', label: 'Orange', image: a35 },
+  { value: 'Racer Blue', label: 'Racer Blue', image: a35 },
   { value: 'Oxygen Purple', label: 'Oxygen Purple', image: a34 },
   { value: 'Fuchsia Fream', label: 'Fuchsia Fream', image: a33 },
   { value: 'Med Soft Pink', label: 'Med Soft Pink', image: a32 },
@@ -35,9 +36,16 @@ const colorOptions = [
   { value: 'University Red', label: 'University Red', image: a30 }
 ];
 
-function ShoeColorSelector() {
-  const [selections, setSelections] = useState({});
 
+
+function ShoeColorSelector() {
+
+  
+  const [selections, setSelections] = useState({});
+  const [userid, setUserId] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
+  // Shoe components to be customized
   const shoeComponents = [
     'Vamp',
     'Tip',
@@ -52,6 +60,7 @@ function ShoeColorSelector() {
     'Laces'
   ];
 
+  // Handle dropdown selection change
   const handleChange = (selectedOption, componentName) => {
     setSelections((prev) => ({
       ...prev,
@@ -59,6 +68,60 @@ function ShoeColorSelector() {
     }));
   };
 
+  useEffect(() => {
+    const participantData = JSON.parse(localStorage.getItem('data'));
+    const id = JSON.parse(localStorage.getItem('id'));
+    console.log(participantData);
+    
+        if (!participantData) {
+            // Redirect if no participant data is found
+            navigate("/");
+            return;
+        }
+        setUserId(id); // Set user ID
+    }, []);
+
+  // Generate JSON for selected options
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const jsonResult = Object.fromEntries(
+      Object.entries(selections).map(([key, value]) => [key, value?.value])
+    );
+
+    console.log(jsonResult); // Logs the JSON to the console
+    try {
+      const response = await fetch("http://localhost:3000/api/v1/colors", {
+        method: "PUT", // Use PUT for updating
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: userid, // Pass the ID
+          data: jsonResult, // Pass the updated data
+        }),
+      });
+
+      const result = await response.json();
+      console.log(result, "Result");
+
+      setLoading(false); // Set loading to false after response is received
+
+      if (response.ok) {
+        alert("Data updated successfully ds");
+        navigate('/choices'); // Redirect after successful update
+      } else {
+        alert("Error: " + result.message);
+      }
+    } catch (error) {
+      setLoading(false); // Set loading to false on error
+      console.error("Error updating form:", error);
+      alert("Failed to update form. Please try again later.");
+    }
+  };
+
+  // Custom dropdown indicator (Chevron)
   const DropdownIndicator = () => (
     <div
       style={{
@@ -74,25 +137,8 @@ function ShoeColorSelector() {
     </div>
   );
 
-//   const CustomOption = ({ innerRef, innerProps, label, data }) => (
-    
-//     <div
-//       ref={innerRef}
-//       {...innerProps}
-//       style={{ display: 'flex', alignItems: 'center', padding: '8px', cursor: 'pointer' }}
-//     >
-//       {/* <Image
-//         src={data.image}
-//         alt={label}
-//         width={20}
-//         height={20}
-//         style={{ marginRight: '8px', borderRadius: '50%' }}
-//       /> */}
-//       <span>{label}</span>
-//     </div>
-//   );
-// Custom option renderer
-const customOption = (props) => {
+  // Custom dropdown options
+  const customOption = (props) => {
     const { data, innerRef, innerProps } = props;
     return (
       <div ref={innerRef} {...innerProps} style={{ display: "flex", alignItems: "center", padding: "10px" }}>
@@ -107,7 +153,7 @@ const customOption = (props) => {
   };
 
   // Custom single value renderer
-const customSingleValue = (props) => {
+  const customSingleValue = (props) => {
     const { data } = props;
     return (
       <div style={{ display: "flex", alignItems: "center" }}>
@@ -120,68 +166,77 @@ const customSingleValue = (props) => {
       </div>
     );
   };
+
   return (
-
     <>
-    <Header />
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <h1 className="text-xl font-bold text-[#1a2a5e] text-center mb-8">
-        For each of the options below, please select the color choices for your shoes.
-      </h1>
+      <Header />
+      <div className="max-w-2xl mx-auto px-4 py-8">
+        <h1 className="text-xl font-bold text-[#1a2a5e] text-center mb-8">
+          For each of the options below, please select the color choices for your shoes.
+        </h1>
 
-      <div className="space-y-4">
-        {shoeComponents.map((component) => (
-          <div key={component} className="flex items-center gap-4">
-            <label htmlFor={component} className="w-28 text-[#1a2a5e] font-medium text-left">
-              {component}
-            </label>
-            <Select
-              id={`select-${component}`}
-              options={colorOptions}
-              value={selections[component]}
-              onChange={(selectedOption) => handleChange(selectedOption, component)}
-              className="flex-1 w-full"
-              classNamePrefix="react-select"
-              placeholder="Select color"
-              components={{
-                DropdownIndicator,
-                Option: customOption,
-                SingleValue: customSingleValue,
-              }}
-            //   components={{ DropdownIndicator, Option: CustomOption }}
-              styles={{
-                control: (provided, state) => ({
-                  ...provided,
-                  backgroundColor: 'white',
-                  borderColor: state.isFocused ? '#1a2a5e' : '#e5e7eb',
-                  boxShadow: state.isFocused ? '0 0 0 1px #1a2a5e' : 'none',
-                  '&:hover': { borderColor: '#1a2a5e' }
-                }),
-                option: (provided, state) => ({
-                  ...provided,
-                  backgroundColor: state.isSelected ? '#1a2a5e' : 'white',
-                  color: state.isSelected ? 'white' : '#1a2a5e',
-                  '&:hover': { backgroundColor: state.isSelected ? '#1a2a5e' : '#f9fafb' }
-                }),
-                singleValue: (provided) => ({
-                  ...provided,
-                  color: '#1a2a5e'
-                }),
-                indicatorSeparator: () => ({ display: 'none' }),
-                dropdownIndicator: (provided) => ({
-                  ...provided,
-                  padding: 0
-                })
-              }}
-            />
-          </div>
-        ))}
-      </div>
-      <div className="flex justify-center pt-4">
-           <a href="http://localhost:5173/choices"> <img src={icon} className="w-100"/></a>
-          {/* <ChevronDown className="w-8 h-8 text-[#1a2a5e] animate-bounce" /> */}
+        <div className="space-y-4">
+          {shoeComponents.map((component) => (
+            <div key={component} className="flex items-center gap-4">
+              <label htmlFor={component} className="w-28 text-[#1a2a5e] font-medium text-left">
+                {component}
+              </label>
+              <Select
+                id={`select-${component}`}
+                options={colorOptions}
+                value={selections[component]}
+                onChange={(selectedOption) => handleChange(selectedOption, component)}
+                className="flex-1 w-full"
+                classNamePrefix="react-select"
+                placeholder="Select color"
+                components={{
+                  DropdownIndicator,
+                  Option: customOption,
+                  SingleValue: customSingleValue,
+                }}
+                styles={{
+                  control: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: 'white',
+                    borderColor: state.isFocused ? '#1a2a5e' : '#e5e7eb',
+                    boxShadow: state.isFocused ? '0 0 0 1px #1a2a5e' : 'none',
+                    '&:hover': { borderColor: '#1a2a5e' }
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: state.isSelected ? '#1a2a5e' : 'white',
+                    color: state.isSelected ? 'white' : '#1a2a5e',
+                    '&:hover': { backgroundColor: state.isSelected ? '#1a2a5e' : '#f9fafb' }
+                  }),
+                  singleValue: (provided) => ({
+                    ...provided,
+                    color: '#1a2a5e'
+                  }),
+                  indicatorSeparator: () => ({ display: 'none' }),
+                  dropdownIndicator: (provided) => ({
+                    ...provided,
+                    padding: 0
+                  })
+                }}
+              />
+            </div>
+          ))}
         </div>
-    </div>
+        
+        <div className="flex justify-center pt-4">
+          
+            <img 
+            src={icon} 
+            className="w-100" 
+            onClick={(e) => {
+              e.preventDefault(); 
+              handleSubmit(e); 
+            }}
+            style={{ cursor: 'pointer' }}
+            />
+         
+        </div>
+      </div>
     </>
   );
 }

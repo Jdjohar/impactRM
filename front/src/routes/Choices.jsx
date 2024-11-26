@@ -1,8 +1,8 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 import Select from 'react-select';
 import Header from '../components/Header';
-
+import { useNavigate } from 'react-router-dom';
 
 const midSoleOptions = [
   { value: 'Black', label: 'Black' },
@@ -50,19 +50,23 @@ const DropdownIndicator = () => (
 
 const Choice = () => {
   const [selections, setSelections] = useState({
-    midsole: 'black',
+    midsole: '',
     outsole: null,
-    shoelery: null,
-    tonguelabel: null,
-    tongueText: ''
+    shoelery: null, // Update to null
+    tonguelabel: null, // Update to null
+    tongueText: '',
   });
-  
+
+  const [userid, setUserId] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
+
   const [errorMessage, setErrorMessage] = useState('');
-  
-  const handleChange = (value, componentName) => {
+
+  const handleChange = (selectedOption, componentName) => {
     setSelections((prev) => ({
       ...prev,
-      [componentName]: value
+      [componentName]: selectedOption, // Store the entire object
     }));
   };
 
@@ -73,10 +77,33 @@ const Choice = () => {
     });
   };
 
+  useEffect(() => {
+    const participantData = JSON.parse(localStorage.getItem('data'));
+    const id = JSON.parse(localStorage.getItem('id'));
+    console.log(participantData);
+
+    if (!participantData) {
+      // Redirect if no participant data is found
+      navigate("/");
+      return;
+    }
+    setUserId(id); // Set user ID
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Check if all required fields are filled
-    const { midsole, outsole, shoelery,tonguelabel } = selections;
+    const { midsole, outsole, shoelery, tonguelabel } = selections;
+
+    const payload = {
+      midsole: selections.midsole,
+      outsole: selections.outsole?.value, // Extract `value` from object
+      shoelery: selections.shoelery?.value, // Extract `value` from object
+      tonguelabel: selections.tonguelabel?.value, // Extract `value` from object
+      tongueText: selections.tongueText,
+    };
+
+    console.log(payload); // Use this payload to send to your API
 
     if (!midsole || !outsole || !shoelery || !tonguelabel) {
       setErrorMessage('Unfortunately, we\'re missing some elements of your order.');
@@ -85,12 +112,37 @@ const Choice = () => {
       alert('Walk with Confidence!');
     }
 
-    console.log(selections);
-    const response = await fetch("http://localhost:3000/api/v1/updateParticipantData", {
-      method: "POST",
-      headers: {"Content-Type": "application/json",},
-      body: JSON.stringify({ data: selections }),
-    });
+    console.log(selections, "sd");
+
+    try {
+      const response = await fetch("http://localhost:3000/api/v1/choices", {
+        method: "PUT", // Use PUT for updating
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: userid, // Pass the ID
+          data: selections, // Pass the updated data
+        }),
+      });
+      const result = await response.json();
+      console.log(result, "Result");
+
+      setLoading(false); // Set loading to false after response is received
+
+      if (response.ok) {
+        alert("Data updated successfully ds");
+        navigate('/thanks'); // Redirect after successful update
+      } else {
+        alert("Error: " + result.message);
+      }
+
+    } catch (error) {
+      setLoading(false); // Set loading to false on error
+      console.error("Error updating form:", error);
+      alert("Failed to update form. Please try again later.");
+    }
+
 
 
   };
@@ -115,15 +167,17 @@ const Choice = () => {
           <div className="flex items-center gap-4">
             <label className="w-28 text-[#1a2a5e] font-medium text-left">Midsole</label>
             <div className="flex gap-4">
+              {console.log(midSoleOptions, "midSoleOptions")
+              }
               {midSoleOptions.map((option) => (
+
                 <button
                   key={option.value}
                   onClick={() => handleChange(option.value, 'midsole')}
-                  className={`px-4 py-2 rounded-full ${
-                    selections.midsole === option.value
-                      ? 'bg-[#1a2a5e] text-white'
-                      : 'bg-white text-[#1a2a5e] border border-[#1a2a5e]'
-                  }`}
+                  className={`px-4 py-2 rounded-full ${selections.midsole === option.value
+                    ? 'bg-[#1a2a5e] text-white'
+                    : 'bg-white text-[#1a2a5e] border border-[#1a2a5e]'
+                    }`}
                 >
                   {option.label}
                 </button>
@@ -134,10 +188,11 @@ const Choice = () => {
           {/* Outsole - Using Select */}
           <div className="flex items-center gap-4">
             <label className="w-28 text-[#1a2a5e] font-medium text-left">Outsole</label>
+            {console.log(selections, "selections")}
             <Select
               options={outSoleOptions}
               value={selections.outsole}
-              onChange={(selectedOption) => handleChange(selectedOption.value, 'outsole')}
+              onChange={(selectedOption) => handleChange(selectedOption, 'outsole')}
               className="flex-1 max-w-[200px]"
               classNamePrefix="react-select"
               placeholder="Select Outsoles"
@@ -161,13 +216,13 @@ const Choice = () => {
             <label className="w-28 text-[#1a2a5e] font-medium text-left">Shoelery</label>
             <Select
               options={shoeleryOptions}
-              value={selections.shoelery}
-              onChange={(selectedOption) => handleChange(selectedOption.value, 'shoelery')}
+              value={selections.shoelery} // Pass the entire object
+              onChange={(selectedOption) => handleChange(selectedOption, 'shoelery')} // Pass the entire object to handleChange
               className="flex-1 max-w-[200px]"
               classNamePrefix="react-select"
               placeholder="Select Shoelery"
               components={{
-                DropdownIndicator
+                DropdownIndicator,
               }}
               styles={{
                 control: (provided, state) => ({
@@ -175,19 +230,19 @@ const Choice = () => {
                   backgroundColor: 'white',
                   borderColor: state.isFocused ? '#1a2a5e' : '#e5e7eb',
                   boxShadow: state.isFocused ? '0 0 0 1px #1a2a5e' : 'none',
-                  '&:hover': { borderColor: '#1a2a5e' }
+                  '&:hover': { borderColor: '#1a2a5e' },
                 }),
               }}
             />
           </div>
 
-                   {/* Tongue Print Label */}
+          {/* Tongue Print Label */}
           <div className="flex items-center gap-4">
             <label className="w-28 text-[#1a2a5e] font-medium text-left">Tongue Label</label>
             <Select
               options={tonguePrintOptions}
-              value={selections.shoelery}
-              onChange={(selectedOption) => handleChange(selectedOption.value, 'tonguelabel')}
+              value={selections.tonguelabel}
+              onChange={(selectedOption) => handleChange(selectedOption, 'tonguelabel')}
               className="flex-1 max-w-[200px]"
               classNamePrefix="react-select"
               placeholder="Tongue Label"

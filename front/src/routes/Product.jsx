@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import shoe from "../../public/LabeledShoe.png";
 import icon from "../../public/ScrollIcon.png";
+import { Link } from "react-router-dom";
 
 export default function Product() {
   return (
@@ -49,7 +50,7 @@ export default function Product() {
         </div>
 
         <div className="flex justify-center pt-4">
-           <a href=""> <img src={icon} className="w-100"/></a>
+           <Link to={'/size'}> <img src={icon} className="w-100"/></Link>
           {/* <ChevronDown className="w-8 h-8 text-[#1a2a5e] animate-bounce" /> */}
         </div>
       </main>

@@ -1,11 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Header from '../components/Header'
+import { useNavigate } from 'react-router-dom';
 import icon from "../../public/ScrollIcon.png";
-export default function Size() {
-  const [selectedSize, setSelectedSize] = useState([])
 
+
+
+export default function Size() {
+
+  
+  const [selectedSize, setSelectedSize] = useState([])
+  const [userId, setUserId] = useState(""); 
+  const [loading, setLoading] = useState(false);
   const sizes = [
     'M 3.5 / W 5',
     'M 4 / W 5.5',
@@ -31,66 +38,103 @@ export default function Size() {
     'M 15 / W 16.5'
   ]
 
+  useEffect(()=>{
+    const participantData = JSON.parse(localStorage.getItem('data'));
+    const id = JSON.parse(localStorage.getItem('id'));
+
+    setUserId(id)
+  },[])
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Check if all required fields are filled
-    const { midsole, outsole, shoelery,tonguelabel } = selections;
 
-    if (!midsole || !outsole || !shoelery || !tonguelabel) {
-      setErrorMessage('Unfortunately, we\'re missing some elements of your order.');
-    } else {
-      setErrorMessage('');
-      alert('Walk with Confidence!');
+    // Optional: Validate form data before submitting
+    if (!selectedSize) {
+        alert("Please fill in all required fields.");
+        return;
     }
 
-    console.log(selections);
-    const response = await fetch("http://localhost:3000/api/v1/updateParticipantData", {
-      method: "POST",
-      headers: {"Content-Type": "application/json",},
-      body: JSON.stringify({ data: selections }),
-    });
+    console.log(selectedSize,"Before formData");
+    
 
+    setLoading(true); // Set loading to true before the request
 
-  };
+    try {
+        const response = await fetch("http://localhost:3000/api/v1/size", {
+            method: "PUT", // Use PUT for updating
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: userId, // Pass the ID
+                data: selectedSize, // Pass the updated data
+            }),
+        });
+        console.log(selectedSize,"After formData");
+        const result = await response.json();
+        console.log(result, "Result");
+
+        setLoading(false); // Set loading to false after response is received
+
+        if (response.ok) {
+            alert("Data updated successfully 12");
+            navigate('/colors')
+            // Optionally reset form data or redirect after submission
+            
+        } else {
+            alert("Error: " + result.message);
+        }
+    } catch (error) {
+        setLoading(false); // Set loading to false on error
+        console.error("Error updating form:", error);
+        alert("Failed to update form. Please try again later.");
+    }
+};
 
 
 
   return (
     <>
-    <Header/>
-    
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <h2 className="text-xl font-bold text-[#1a2a5e] mb-6">
-        Please select your shoe size:
-      </h2>
+      <Header />
 
-      <div className="grid grid-cols-2 gap-4">
-        {sizes.map((size) => (
-          <button
-            key={size}
-            onClick={() => setSelectedSize(size)}
-            className={`
+      <div className="max-w-2xl mx-auto px-4 py-8">
+        <h2 className="text-xl font-bold text-[#1a2a5e] mb-6">
+          Please select your shoe size:
+        </h2>
+
+        <div className="grid grid-cols-2 gap-4">
+          {sizes.map((size) => (
+            <button
+              key={size}
+              onClick={() => setSelectedSize(size)}
+              className={`
               py-2 px-4 border-2 rounded
-              ${selectedSize === size 
-                ? 'border-[#1a2a5e] bg-[#1a2a5e] text-white' 
-                : 'border-[#1a2a5e] text-[#1a2a5e] hover:bg-gray-50'
-              }
+              ${selectedSize === size
+                  ? 'border-[#1a2a5e] bg-[#1a2a5e] text-white'
+                  : 'border-[#1a2a5e] text-[#1a2a5e] hover:bg-gray-50'
+                }
               transition-colors duration-200
             `}
-          >
-            {size}
-          </button>
-        ))}
+            >
+              {size}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex justify-center mt-8">
+          <img
+            src={icon}
+            className="w-100"
+            onClick={(e) => {
+              e.preventDefault(); 
+              handleSubmit(e); 
+            }}
+            style={{ cursor: 'pointer' }}
+          />
+          
+        </div>
+
       </div>
-
-      <div className="flex justify-center mt-8">
-      <a href="http://localhost:5173/colors"> <img src={icon} className="w-100"/>
-
-      </a>
-        {/* <ChevronDown className="w-8 h-8 text-[#1a2a5e] animate-bounce" /> */}
-      </div>
-
-    </div>
     </>
   )
 }
