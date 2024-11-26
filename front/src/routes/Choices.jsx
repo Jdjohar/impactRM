@@ -115,7 +115,7 @@ const Choice = () => {
     console.log(selections, "sd");
 
     try {
-      const response = await fetch("http://localhost:3000/api/v1/choices", {
+      const response = await fetch("https://impactrm.onrender.com/api/v1/choices", {
         method: "PUT", // Use PUT for updating
         headers: {
           "Content-Type": "application/json",

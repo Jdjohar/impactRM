@@ -60,7 +60,7 @@ export default function Size() {
     setLoading(true); // Set loading to true before the request
 
     try {
-        const response = await fetch("http://localhost:3000/api/v1/size", {
+        const response = await fetch("https://impactrm.onrender.com/api/v1/size", {
             method: "PUT", // Use PUT for updating
             headers: {
                 "Content-Type": "application/json",

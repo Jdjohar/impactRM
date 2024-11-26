@@ -92,7 +92,7 @@ function ShoeColorSelector() {
 
     console.log(jsonResult); // Logs the JSON to the console
     try {
-      const response = await fetch("http://localhost:3000/api/v1/colors", {
+      const response = await fetch("https://impactrm.onrender.com/api/v1/colors", {
         method: "PUT", // Use PUT for updating
         headers: {
           "Content-Type": "application/json",

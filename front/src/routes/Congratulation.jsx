@@ -44,7 +44,7 @@ export default function PromotionalCard() {
     setSuccessMessage(""); // Reset success message
 
     try {
-      const response = await fetch("http://localhost:3000/api/v1/getParticipantDataByPin", {
+      const response = await fetch("https://impactrm.onrender.com/api/v1/getParticipantDataByPin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

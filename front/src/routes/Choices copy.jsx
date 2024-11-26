@@ -86,7 +86,7 @@ const Choice = () => {
     }
 
     console.log(selections);
-    const response = await fetch("http://localhost:3000/api/v1/updateParticipantData", {
+    const response = await fetch("https://impactrm.onrender.com/api/v1/updateParticipantData", {
       method: "POST",
       headers: {"Content-Type": "application/json",},
       body: JSON.stringify({ data: selections }),
