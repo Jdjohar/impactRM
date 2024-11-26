@@ -141,4 +141,44 @@ router.post("/api/v1/addParticipantData", async (req, res) => {
   }
 });
 
+
+//add ParticipantData
+router.post("/api/v1/updateParticipantData", async (req, res) => {
+  try {
+    await sql.connect(config);
+
+    const request = new sql.Request();
+    const { data } = req.body;
+
+    // SQL Query to insert data into the Participant_OUSHCP table
+    const query =
+      "update Participant set choices=@data where id=1000";
+
+    // Add input parameter for the JSON data
+    request.input("data", sql.NVarChar, JSON.stringify(data));
+
+    // Execute the query
+    await request.query(query);
+
+    console.log("Participant data updated successfully");
+
+    res.status(200).json({
+      data:data,
+      status: "success",
+      message: "Data updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating data:", error);
+    res.status(400).json({
+      status: "failed",
+      message: "Error updating data",
+      error: error.message,
+    });
+  } finally {
+    sql.close();
+  }
+});
+
+
+
 module.exports = router;
