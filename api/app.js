@@ -44,9 +44,7 @@
     // res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
     const corsWhitelist = [
       "http://localhost:5173",
-      "https://nishkam-app.vercel.app",
-      "https://nishkam-reports.vercel.app",
-      "https://nishkam-app.vercel.app/",
+      "https://rubrik-omega.vercel.app"
   ];
   if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
       res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
