@@ -213,7 +213,7 @@ const Choice = () => {
             <textarea
               value={selections.tongueText}
               onChange={handleTextChange}
-              maxLength={50}
+              maxLength={7}
               className="flex-1 border border-gray-300 p-2"
               placeholder="Please leave blank if you don't want text"
             />

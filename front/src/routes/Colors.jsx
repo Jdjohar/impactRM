@@ -20,19 +20,19 @@ import a42 from "../../public/colors/Asset 42.png";
 import Header from '../components/Header';
 
 const colorOptions = [
-  { value: 'white', label: 'White', image: a42 },
-  { value: 'black', label: 'Black', image: a41 },
-  { value: 'wolf gray', label: 'Wolf Gray', image: a42 },
-  { value: 'moss', label: 'Moss', image: a39 },
-  { value: 'sesame', label: 'Sesame', image: a38 },
-  { value: 'sundail', label: 'Sundail', image: a37 },
-  { value: 'baltic blue', label: 'Baltic Blue', image: a36 },
-  { value: 'racer blue', label: 'Orange', image: a35 },
-  { value: 'oxygen purple', label: 'Oxygen Purple', image: a34 },
-  { value: 'fuchsia dream', label: 'Fuchsia Dream', image: a33 },
-  { value: 'med soft pink', label: 'Med Soft Pink', image: a32 },
-  { value: 'pink spell', label: 'Pink Spell', image: a31 },
-  { value: 'university red', label: 'University Red', image: a30 }
+  { value: 'Black', label: 'Black', image: a41 },
+  { value: 'White', label: 'White', image: a42 },
+  { value: 'Wolf Gray', label: 'Wolf Gray', image: a42 },
+  { value: 'Moss', label: 'Moss', image: a39 },
+  { value: 'Sesame', label: 'Sesame', image: a38 },
+  { value: 'Sundail', label: 'Sundail', image: a37 },
+  { value: 'Baltic Blue', label: 'Baltic Blue', image: a36 },
+  { value: 'Racer Blue', label: 'Orange', image: a35 },
+  { value: 'Oxygen Purple', label: 'Oxygen Purple', image: a34 },
+  { value: 'Fuchsia Fream', label: 'Fuchsia Fream', image: a33 },
+  { value: 'Med Soft Pink', label: 'Med Soft Pink', image: a32 },
+  { value: 'Pink Spell', label: 'Pink Spell', image: a31 },
+  { value: 'University Red', label: 'University Red', image: a30 }
 ];
 
 function ShoeColorSelector() {
@@ -46,7 +46,7 @@ function ShoeColorSelector() {
     'Swoosh',
     'Collar',
     'Eyestay',
-    'Tongue Lining',
+    'Tongue/Lining',
     'Backtab',
     'Backab logo',
     'Laces'
@@ -178,7 +178,7 @@ const customSingleValue = (props) => {
         ))}
       </div>
       <div className="flex justify-center pt-4">
-           <a href=""> <img src={icon} className="w-100"/></a>
+           <a href="http://localhost:5173/choices"> <img src={icon} className="w-100"/></a>
           {/* <ChevronDown className="w-8 h-8 text-[#1a2a5e] animate-bounce" /> */}
         </div>
     </div>

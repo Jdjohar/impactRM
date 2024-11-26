@@ -1,37 +1,18 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import Select from 'react-select';
 import Header from '../components/Header';
 
-
-const midSoleOptions = [
-  { value: 'Black', label: 'Black' },
-  { value: 'White', label: 'White' }
+const colorOptions = [
+  { value: 'black', label: 'Black' },
+  { value: 'white', label: 'White' }
 ];
 
-const outSoleOptions = [
-  { value: 'Black', label: 'Black' },
-  { value: 'White', label: 'White' },
-  { value: 'Sail', label: 'Sail' },
-  { value: 'Racer Blue', label: 'Racer Blue' },
-  { value: 'University Red', label: 'University Red' },
-  { value: 'Gum Light Brown', label: 'Gum Light Brown' },
-  { value: 'Fuschia Dream', label: 'Fuschia Dream' },
-  { value: 'Med Soft Pink', label: 'Med Soft Pink' }
+const shoeOptions = [
+  { value: 'sneakers', label: 'Sneakers' },
+  { value: 'boots', label: 'Boots' },
+  { value: 'loafers', label: 'Loafers' }
 ];
-
-const shoeleryOptions = [
-  { value: 'Metallic Gold', label: 'Metallic Gold' },
-  { value: 'Metallic Silver', label: 'Metallic Silver' },
-  { value: 'Gun Metal', label: 'Gun Metal' }
-];
-
-const tonguePrintOptions = [
-  { value: 'Cool Grey', label: 'Cool Grey' },
-  { value: 'Med Soft Pink', label: 'Med Soft Pink' },
-  { value: 'Sesame', label: 'Sesame' },
-];
-
 
 const DropdownIndicator = () => (
   <div
@@ -53,7 +34,7 @@ const Choice = () => {
     midsole: 'black',
     outsole: null,
     shoelery: null,
-    tonguelabel: null,
+    tigerPrintLabel: '',
     tongueText: ''
   });
   
@@ -73,26 +54,16 @@ const Choice = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     // Check if all required fields are filled
-    const { midsole, outsole, shoelery,tonguelabel } = selections;
-
-    if (!midsole || !outsole || !shoelery || !tonguelabel) {
+    const { midsole, outsole, shoelery } = selections;
+    
+    if (!midsole || !outsole || !shoelery) {
       setErrorMessage('Unfortunately, we\'re missing some elements of your order.');
     } else {
       setErrorMessage('');
       alert('Walk with Confidence!');
     }
-
-    console.log(selections);
-    const response = await fetch("http://localhost:3000/api/v1/updateParticipantData", {
-      method: "POST",
-      headers: {"Content-Type": "application/json",},
-      body: JSON.stringify({ data: selections }),
-    });
-
-
   };
 
   return (
@@ -115,7 +86,7 @@ const Choice = () => {
           <div className="flex items-center gap-4">
             <label className="w-28 text-[#1a2a5e] font-medium text-left">Midsole</label>
             <div className="flex gap-4">
-              {midSoleOptions.map((option) => (
+              {colorOptions.map((option) => (
                 <button
                   key={option.value}
                   onClick={() => handleChange(option.value, 'midsole')}
@@ -135,12 +106,12 @@ const Choice = () => {
           <div className="flex items-center gap-4">
             <label className="w-28 text-[#1a2a5e] font-medium text-left">Outsole</label>
             <Select
-              options={outSoleOptions}
+              options={colorOptions}
               value={selections.outsole}
               onChange={(selectedOption) => handleChange(selectedOption.value, 'outsole')}
               className="flex-1 max-w-[200px]"
               classNamePrefix="react-select"
-              placeholder="Select Outsoles"
+              placeholder="Select Outsole"
               components={{
                 DropdownIndicator
               }}
@@ -160,7 +131,7 @@ const Choice = () => {
           <div className="flex items-center gap-4">
             <label className="w-28 text-[#1a2a5e] font-medium text-left">Shoelery</label>
             <Select
-              options={shoeleryOptions}
+              options={shoeOptions}
               value={selections.shoelery}
               onChange={(selectedOption) => handleChange(selectedOption.value, 'shoelery')}
               className="flex-1 max-w-[200px]"
@@ -181,31 +152,17 @@ const Choice = () => {
             />
           </div>
 
-                   {/* Tongue Print Label */}
+          {/* Tiger Print Label */}
           <div className="flex items-center gap-4">
-            <label className="w-28 text-[#1a2a5e] font-medium text-left">Tongue Label</label>
-            <Select
-              options={tonguePrintOptions}
-              value={selections.shoelery}
-              onChange={(selectedOption) => handleChange(selectedOption.value, 'tonguelabel')}
-              className="flex-1 max-w-[200px]"
-              classNamePrefix="react-select"
-              placeholder="Tongue Label"
-              components={{
-                DropdownIndicator
-              }}
-              styles={{
-                control: (provided, state) => ({
-                  ...provided,
-                  backgroundColor: 'white',
-                  borderColor: state.isFocused ? '#1a2a5e' : '#e5e7eb',
-                  boxShadow: state.isFocused ? '0 0 0 1px #1a2a5e' : 'none',
-                  '&:hover': { borderColor: '#1a2a5e' }
-                }),
-              }}
+            <label className="w-28 text-[#1a2a5e] font-medium text-left">Tiger Print</label>
+            <input
+              type="text"
+              value={selections.tigerPrintLabel}
+              onChange={(e) => handleTextChange(e)}
+              className="flex-1 border border-gray-300 p-2"
+              placeholder="Enter label"
             />
           </div>
-
 
           {/* Tongue Text */}
           <div className="flex items-center gap-4">
@@ -213,7 +170,7 @@ const Choice = () => {
             <textarea
               value={selections.tongueText}
               onChange={handleTextChange}
-              maxLength={50}
+              maxLength={7}
               className="flex-1 border border-gray-300 p-2"
               placeholder="Please leave blank if you don't want text"
             />

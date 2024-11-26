@@ -31,6 +31,30 @@ export default function Size() {
     'M 15 / W 16.5'
   ]
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Check if all required fields are filled
+    const { midsole, outsole, shoelery,tonguelabel } = selections;
+
+    if (!midsole || !outsole || !shoelery || !tonguelabel) {
+      setErrorMessage('Unfortunately, we\'re missing some elements of your order.');
+    } else {
+      setErrorMessage('');
+      alert('Walk with Confidence!');
+    }
+
+    console.log(selections);
+    const response = await fetch("http://localhost:3000/api/v1/updateParticipantData", {
+      method: "POST",
+      headers: {"Content-Type": "application/json",},
+      body: JSON.stringify({ data: selections }),
+    });
+
+
+  };
+
+
+
   return (
     <>
     <Header/>
@@ -60,9 +84,12 @@ export default function Size() {
       </div>
 
       <div className="flex justify-center mt-8">
-      <a href=""> <img src={icon} className="w-100"/></a>
+      <a href="http://localhost:5173/colors"> <img src={icon} className="w-100"/>
+
+      </a>
         {/* <ChevronDown className="w-8 h-8 text-[#1a2a5e] animate-bounce" /> */}
       </div>
+
     </div>
     </>
   )
