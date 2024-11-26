@@ -78,7 +78,7 @@ export default function ConfirmForm() {
             setLoading(false); // Set loading to false after response is received
 
             if (response.ok) {
-                alert("Data updated successfully");
+                //alert("Data updated successfully");
 
                 navigate('/product')
                 // Optionally reset form data or redirect after submission

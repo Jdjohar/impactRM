@@ -18,12 +18,11 @@ import a41 from "../../public/colors/Asset 41.png";
 import a42 from "../../public/colors/Asset 42.png";
 import Header from '../components/Header';
 
-
 // Dropdown color options
 const colorOptions = [
   { value: 'Black', label: 'Black', image: a41 },
   { value: 'White', label: 'White', image: a42 },
-  { value: 'Wolf Gray', label: 'Wolf Gray', image: a42 },
+  { value: 'Wolf Gray', label: 'Wolf Gray', image: a40 },
   { value: 'Moss', label: 'Moss', image: a39 },
   { value: 'Sesame', label: 'Sesame', image: a38 },
   { value: 'Sundail', label: 'Sundail', image: a37 },
@@ -36,15 +35,13 @@ const colorOptions = [
   { value: 'University Red', label: 'University Red', image: a30 }
 ];
 
-
-
 function ShoeColorSelector() {
-
-  
   const [selections, setSelections] = useState({});
   const [userid, setUserId] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
+  const [errorMessage, setErrorMessage] = useState('');
+
   // Shoe components to be customized
   const shoeComponents = [
     'Vamp',
@@ -90,7 +87,21 @@ function ShoeColorSelector() {
       Object.entries(selections).map(([key, value]) => [key, value?.value])
     );
 
-    console.log(jsonResult); // Logs the JSON to the console
+    console.log("jsonResult=",jsonResult); // Logs the JSON to the console
+
+    if (Object.keys(jsonResult).length==99) {
+      alert("Please fill in all required fields.");
+      return;
+    } 
+
+  if (Object.keys(jsonResult).length<11) {
+    setErrorMessage('Unfortunately, we\'re missing some elements of your order.');
+    return
+  } else {
+    setErrorMessage('');
+    //alert('Walk with Confidence!');
+  }
+
     try {
       const response = await fetch("https://impactrm.onrender.com/api/v1/colors", {
         method: "PUT", // Use PUT for updating
@@ -109,7 +120,7 @@ function ShoeColorSelector() {
       setLoading(false); // Set loading to false after response is received
 
       if (response.ok) {
-        alert("Data updated successfully ds");
+        //alert("Data updated successfully  - Colors");
         navigate('/choices'); // Redirect after successful update
       } else {
         alert("Error: " + result.message);
@@ -174,6 +185,13 @@ function ShoeColorSelector() {
         <h1 className="text-xl font-bold text-[#1a2a5e] text-center mb-8">
           For each of the options below, please select the color choices for your shoes.
         </h1>
+        {/* Display Error Message */}
+        {errorMessage && (
+          <div className="text-center text-red-600 font-medium mb-4">
+            {errorMessage}
+          </div>
+        )}
+
 
         <div className="space-y-4">
           {shoeComponents.map((component) => (

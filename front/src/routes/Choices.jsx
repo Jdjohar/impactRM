@@ -107,9 +107,10 @@ const Choice = () => {
 
     if (!midsole || !outsole || !shoelery || !tonguelabel) {
       setErrorMessage('Unfortunately, we\'re missing some elements of your order.');
+      return
     } else {
       setErrorMessage('');
-      alert('Walk with Confidence!');
+      //alert('Walk with Confidence!');
     }
 
     console.log(selections, "sd");
@@ -122,7 +123,7 @@ const Choice = () => {
         },
         body: JSON.stringify({
           id: userid, // Pass the ID
-          data: selections, // Pass the updated data
+          data: payload, // Pass the updated data
         }),
       });
       const result = await response.json();
@@ -131,7 +132,7 @@ const Choice = () => {
       setLoading(false); // Set loading to false after response is received
 
       if (response.ok) {
-        alert("Data updated successfully ds");
+        //alert("Data updated successfully - Choices");
         navigate('/thanks'); // Redirect after successful update
       } else {
         alert("Error: " + result.message);
@@ -142,8 +143,6 @@ const Choice = () => {
       console.error("Error updating form:", error);
       alert("Failed to update form. Please try again later.");
     }
-
-
 
   };
 

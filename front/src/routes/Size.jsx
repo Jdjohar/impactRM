@@ -3,8 +3,7 @@
 import { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import { useNavigate } from 'react-router-dom';
-import icon from "../../public/ScrollIcon.png";
-
+import icon from "../../public/ScrollIcon.png"
 
 
 export default function Size() {
@@ -13,6 +12,7 @@ export default function Size() {
   const [selectedSize, setSelectedSize] = useState([])
   const [userId, setUserId] = useState(""); 
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const sizes = [
     'M 3.5 / W 5',
     'M 4 / W 5.5',
@@ -48,13 +48,15 @@ export default function Size() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    //console.log("selectedSize=" + selectedSize.length);
+
     // Optional: Validate form data before submitting
-    if (!selectedSize) {
+    if (selectedSize.length===0) {
         alert("Please fill in all required fields.");
         return;
     }
 
-    console.log(selectedSize,"Before formData");
+    //console.log(selectedSize,"Before formData");
     
 
     setLoading(true); // Set loading to true before the request
@@ -77,8 +79,8 @@ export default function Size() {
         setLoading(false); // Set loading to false after response is received
 
         if (response.ok) {
-            alert("Data updated successfully 12");
-            navigate('/colors')
+          //alert("Data updated successfully-Size");
+            navigate('/colors');
             // Optionally reset form data or redirect after submission
             
         } else {
