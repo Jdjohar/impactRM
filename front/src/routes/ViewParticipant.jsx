@@ -2,13 +2,45 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 
+
+const sendWinnerSMS = async (pin,phone) => {
+    if (confirm("You are about to send a Winner SMS to (" + phone + ") Are you sure?") == true) {
+        const response = await fetch('https://impactrm.onrender.com/api/v1/sendWinnerSMS?pin='+pin+'&phone='+phone);
+    } 
+};
+
+const winnerSMS = (e, pin,phone) => {
+    e.preventDefault();
+    sendWinnerSMS(pin,phone);
+};
+
+const shippingSMS = (e, linktracking) => {
+    e.preventDefault();
+    console.log("linkTracking=", linktracking);
+    alert(linktracking);
+};
+
 const ParticipantList = () => {
     const [StudentData, setStudentData] = useState([]);
     const [FetchData, setFetchData] = useState(true);
 
 
     const columns = [
-
+        {
+            cell:(row) => <button  class="focus:outline-none text-white bg-green-500 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-small rounded-lg text-sm px-1 py-1 me-1 mb-2 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-500" onClick={(e) => winnerSMS(e, row.pin,row.Phone)}>Send Winner SMS</button>,
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: true,
+        },
+   /*
+        { 
+            cell:(row) => <button  class="focus:outline-none text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={(e) => shippingSMS(e, row.linktracking)}>Shipping SMS</button>,
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: true,
+        },        
+*/
+        { name: 'Date', selector: row => row.created, compact: true,},
         { name: 'Id', selector: row => row.id, compact: true,},
         { name: 'Name', selector: row => row.Name,wrap:true,compact: true,},
         { name: 'PIN', selector: row => row.pin,wrap:true,compact: true,},
@@ -36,6 +68,7 @@ const ParticipantList = () => {
         { name: 'Shoelery', selector: row => row.Shoelery,wrap:true,compact: true,},
         { name: 'TongueLabel', selector: row => row.TongueLabel,wrap:true,compact: true,},
         { name: 'TongueText', selector: row => row.TongueText,wrap:true,compact: true,},
+        { name: 'Tracking Link', selector: row => row.linktracking,wrap:true,compact: true,},        
     ];
 
     const tableHeaderstyle = {
@@ -125,10 +158,10 @@ const ParticipantList = () => {
                                             data={filteredData}
                                             customStyles={tableHeaderstyle}
                                             pagination
-                                            paginationPerPage={10}
+                                            paginationPerPage={15}
                                             defaultSortFieldId={1}
-                                            paginationRowsPerPageOptions={[10, 25, 50, 75, 100, 10000]}
-                                            // paginationComponentOptions={paginationComponentOptions}
+                                            paginationRowsPerPageOptions={[15, 25, 50, 75, 100, 10000]}
+                                            //paginationComponentOptions={paginationComponentOptions}
                                             fixedHeader
                                             responsive
                                             highlightOnHover
