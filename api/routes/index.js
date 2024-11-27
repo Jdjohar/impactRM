@@ -103,7 +103,20 @@ router.get("/api/v1/testapi", async (req, res) => {
     status: "succes",
     message: `Call From Test Api ${name}`
   })
+});
 
+router.get("/api/v1/sendWinnerSMS", async (req, res) => {
+  const pin = req.query.pin;
+  const phone = req.query.phone
+  console.log("Sending SMS");
+  const messageDetails = {
+         body: "WINNER ALERT! READY TO WALK WITH CONFIDENCE?\n\nThank you for visiting Rubrik Booth #1948 at AWS re:Invent. You have been selected to receive a FREE pair of customized Nike Dunk shoes from Rubrik!\n\nPlease visit https://www.rubriknikegiveaway.com \nand enter the PIN code below to personalize your Nike Dunks and confirm your shipping details.\n\nPlease complete your order by December 12, 2024. Orders will be delivered in 2-4 weeks.\n\nYour personalized pin code is: " + pin +"\n\nYou are receiving this message because you visited Rubrik Booth #1948 at AWS re:Invent. Please do not reply to this message.",
+   
+         from: "+15714581785", // Your Twilio phone number
+         to: "+1"+phone, // Recipient's phone number (replace with a variable if dynamic)
+       };
+       await client.messages.create(messageDetails);
+       console.log("SMS sent successfully");
 });
 
 router.post("/api/v1/addParticipantData", async (req, res) => {
@@ -126,19 +139,19 @@ router.post("/api/v1/addParticipantData", async (req, res) => {
     console.log("Participant data inserted successfully");
 
      // Send an SMS using Twilio
-     const messageDetails = {
+ //    const messageDetails = {
 //      body: `New participant data added: ${JSON.stringify(data)}`,
      // body: `WINNER ALERT! READY TO WALK WITH CONFIDENCE\n\nThank you for visiting\n\nPIN: ${(data.name)}`,
       
-      body: `WINNER ALERT! READY TO WALK WITH CONFIDENCE?\n\nThank you for visiting Rubrik Booth #1948 at AWS re:Invent. You have been selected to receive a FREE pair of customized Nike Dunk shoes from Rubrik!\n\nPlease visit https://www.rubriknikegiveaway.com \nand enter the PIN code below to personalize your Nike Dunks and confirm your shipping details.\n\nPlease complete your order by December 12, 2024. Orders will be delivered in 2-4 weeks.\n\nYour personalized pin code is XXXXXX\n\nYou are receiving this message because you visited Rubrik Booth #1948 at AWS re:Invent. Please do not reply to this message.`,
+//      body: `WINNER ALERT! READY TO WALK WITH CONFIDENCE?\n\nThank you for visiting Rubrik Booth #1948 at AWS re:Invent. You have been selected to receive a FREE pair of customized Nike Dunk shoes from Rubrik!\n\nPlease visit https://www.rubriknikegiveaway.com \nand enter the PIN code below to personalize your Nike Dunks and confirm your shipping details.\n\nPlease complete your order by December 12, 2024. Orders will be delivered in 2-4 weeks.\n\nYour personalized pin code is XXXXXX\n\nYou are receiving this message because you visited Rubrik Booth #1948 at AWS re:Invent. Please do not reply to this message.`,
 
-      from: "+15714581785", // Your Twilio phone number
+//      from: "+15714581785", // Your Twilio phone number
 //      to: "+14168803321", // Recipient's phone number (replace with a variable if dynamic)
-      to: "+1"+data.phone, // Recipient's phone number (replace with a variable if dynamic)
+//      to: "+1"+data.phone, // Recipient's phone number (replace with a variable if dynamic)
 
-    };
-    await client.messages.create(messageDetails);
-    console.log("SMS sent successfully");
+ //   };
+  //  await client.messages.create(messageDetails);
+    //console.log("SMS sent successfully");
     
     res.status(200).json({
       data: data,
@@ -156,6 +169,33 @@ router.post("/api/v1/addParticipantData", async (req, res) => {
     sql.close();
   }
 });
+
+
+
+
+router.get('/api/v1/winnerSMS', async (req, res) => {
+     // Send an SMS using Twilio
+     const messageDetails = {
+      //      body: `New participant data added: ${JSON.stringify(data)}`,
+           // body: `WINNER ALERT! READY TO WALK WITH CONFIDENCE\n\nThank you for visiting\n\nPIN: ${(data.name)}`,
+            
+            body: `WINNER ALERT! READY TO WALK WITH CONFIDENCE?\n\nThank you for visiting Rubrik Booth #1948 at AWS re:Invent. You have been selected to receive a FREE pair of customized Nike Dunk shoes from Rubrik!\n\nPlease visit https://www.rubriknikegiveaway.com \nand enter the PIN code below to personalize your Nike Dunks and confirm your shipping details.\n\nPlease complete your order by December 12, 2024. Orders will be delivered in 2-4 weeks.\n\nYour personalized pin code is XXXXXX\n\nYou are receiving this message because you visited Rubrik Booth #1948 at AWS re:Invent. Please do not reply to this message.`,
+      
+            from: "+15714581785", // Your Twilio phone number
+      //      to: "+14168803321", // Recipient's phone number (replace with a variable if dynamic)
+            to: "+1"+data.phone, // Recipient's phone number (replace with a variable if dynamic)
+      
+          };
+          await client.messages.create(messageDetails);
+          console.log("SMS sent successfully");
+
+});
+
+
+
+
+
+
 
 router.get('/api/v1/viewParticipant', async (req, res) => {
   try {
