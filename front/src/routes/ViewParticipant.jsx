@@ -9,7 +9,7 @@ const ParticipantList = () => {
 
     const columns = [
 
-        { name: 'ID', selector: row => row.id, compact: true,},
+        { name: 'Id', selector: row => row.id, compact: true,},
         { name: 'Name', selector: row => row.Name,wrap:true,compact: true,},
         { name: 'PIN', selector: row => row.pin,wrap:true,compact: true,},
         { name: 'Address', selector: row => row.Address,wrap:true,compact: true,},

@@ -25,9 +25,9 @@ export default function Form() {
     e.preventDefault();
 
     try {
-      //      const response = await fetch("https://impactrm.onrender.com/api/v1/addParticipantData", {
-      const response = await fetch("https://impactrm.onrender.com/api/v1/addParticipantData", {
-        method: "POST",
+    const response = await fetch("https://impactrm.onrender.com/api/v1/addParticipantData", {
+ //     const response = await fetch("http://localhost:3000/api/v1/addParticipantData", {
+          method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -67,12 +67,11 @@ export default function Form() {
               className="text-xl text-left font-bold text-navy-blue mb-2"
               style={{ color: "#202c5e" }}
             >
-              Please enter winner particulars.
+              Enter Winner particulars
             </h3>
             <p className="text-sm text-gray-600 text-left">
               We apologize but we are unable to deliver to PO boxes.
-              <br />
-              (hint: tap on a text box to edit)
+
             </p>
           </div>
           <form className="space-y-4" onSubmit={handleSubmit}>
@@ -88,6 +87,7 @@ export default function Form() {
                 id="name"
                 value={formData.name}
                 onChange={handleChange}
+                placeholder="Full Name"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
@@ -103,6 +103,7 @@ export default function Form() {
                 id="address"
                 value={formData.address}
                 onChange={handleChange}
+                placeholder="Complete Mailing Address"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
@@ -133,6 +134,7 @@ export default function Form() {
                 id="city"
                 value={formData.city}
                 onChange={handleChange}
+                placeholder="City"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
@@ -148,6 +150,7 @@ export default function Form() {
                 id="state"
                 value={formData.state}
                 onChange={handleChange}
+                placeholder="State"                
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
@@ -163,6 +166,7 @@ export default function Form() {
                 id="zipCode"
                 value={formData.zipCode}
                 onChange={handleChange}
+                placeholder="Zip code"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
@@ -178,6 +182,7 @@ export default function Form() {
                 id="phone"
                 value={formData.phone}
                 onChange={handleChange}
+                placeholder = "10-digit local phone number"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
@@ -193,6 +198,7 @@ export default function Form() {
                 id="email"
                 value={formData.email}
                 onChange={handleChange}
+                placeholder="Email address"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
