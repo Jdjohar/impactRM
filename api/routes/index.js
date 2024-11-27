@@ -24,7 +24,9 @@ var path = require('path');
 const jwt = require('jsonwebtoken');
 const jwrsecret = "MYNameisJashandeepSInghjoharmukts"
 // import {v2 as cloudinary} from 'cloudinary'
+const twilio = require("twilio");
 
+const client = new twilio(process.env.accountSid, process.env.authToken);
 
 
 
@@ -104,7 +106,6 @@ router.get("/api/v1/testapi", async (req, res) => {
 
 });
 
-//add ParticipantData
 router.post("/api/v1/addParticipantData", async (req, res) => {
   try {
     await sql.connect(config);
@@ -124,6 +125,15 @@ router.post("/api/v1/addParticipantData", async (req, res) => {
 
     console.log("Participant data inserted successfully");
 
+     // Send an SMS using Twilio
+     const messageDetails = {
+      body: `New participant data added: ${JSON.stringify(data)}`,
+      from: "+15714581785", // Your Twilio phone number
+      to: "+14168803321", // Recipient's phone number (replace with a variable if dynamic)
+    };
+
+    await client.messages.create(messageDetails);
+    
     res.status(200).json({
       data: data,
       status: "success",
