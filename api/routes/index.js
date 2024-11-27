@@ -131,9 +131,10 @@ router.post("/api/v1/addParticipantData", async (req, res) => {
       from: "+15714581785", // Your Twilio phone number
       to: "+14168803321", // Recipient's phone number (replace with a variable if dynamic)
     };
+    
 
     await client.messages.create(messageDetails);
-    
+    console.log("SMS sent successfully");
     res.status(200).json({
       data: data,
       status: "success",
