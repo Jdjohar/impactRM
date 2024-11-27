@@ -51,9 +51,6 @@ const ParticipantList = () => {
     const [filteredData, setFilteredData] = useState(StudentData);
     const navigate = useNavigate();
     useEffect(() => {
-        if (!localStorage.getItem("UserauthToken")) {
-            navigate("/");
-        }
 
         const fetchData = async () => {
             try {
