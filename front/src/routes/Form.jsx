@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
+import { useNavigate } from 'react-router-dom';
 
 export default function Form() {
   const [formData, setFormData] = useState({
@@ -12,7 +13,7 @@ export default function Form() {
     phone: "",
     email: "",
   });
-
+  const navigate = useNavigate();
   // Handle input changes
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -46,6 +47,7 @@ export default function Form() {
           phone: "",
           email: "",
         });
+        navigate('/viewParticipant');
       } else {
         alert("Error: " + result.message);
       }
@@ -65,8 +67,7 @@ export default function Form() {
               className="text-xl text-left font-bold text-navy-blue mb-2"
               style={{ color: "#202c5e" }}
             >
-              Please confirm or edit your contact details below to ensure we have
-              an accurate shipping address.
+              Please enter winner particulars.
             </h3>
             <p className="text-sm text-gray-600 text-left">
               We apologize but we are unable to deliver to PO boxes.

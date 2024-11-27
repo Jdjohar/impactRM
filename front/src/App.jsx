@@ -14,7 +14,9 @@ import Size from './routes/Size'
 import Colors from './routes/Colors'
 import Choice from './routes/Choices'
 import Thanks from './routes/Thanks'
+import ViewParticipant from './routes/ViewParticipant'
 import ConfirmForm from './routes/ConfirmForm'
+
 function App() {
     return (
         <Router>
@@ -27,6 +29,7 @@ function App() {
         <Route exact path='/colors' element={<Colors />}/>
         <Route exact path='/choices' element={<Choice />}/>
         <Route exact path='/thanks' element={<Thanks />}/>
+        <Route exact path='/viewparticipant' element={<ViewParticipant />}/>
         </Routes>
         </Router>
     )
