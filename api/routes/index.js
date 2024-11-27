@@ -141,8 +141,6 @@ router.post("/api/v1/addParticipantData", async (req, res) => {
   }
 });
 
-
-
 router.get('/api/v1/viewParticipant', async (req, res) => {
   try {
     // Connect to the SQL Server database
@@ -168,12 +166,6 @@ router.get('/api/v1/viewParticipant', async (req, res) => {
     // await sql.close();
   }
 });
-
-
-
-
-
-
 
 router.post("/api/v1/getParticipantDataByPin", async (req, res) => {
   try {
