@@ -37,6 +37,7 @@
     "passport-local": "^1.0.0",
     "pg": "^8.5.1",
     "razorpay": "^2.9.4",
-    "serve-favicon": "~2.4.2"
+    "serve-favicon": "~2.4.2",
+    "twilio": "^5.3.6"
   }
 }
