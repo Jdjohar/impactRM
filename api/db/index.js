@@ -21,7 +21,7 @@ const config =({
 
 sql.connect(config)
   .then(() => {
-    console.log('Connected to the Azure SQL Database Sikligar');
+    console.log('Connected to the Azure SQL Database Rubrik');
 
     // Execute a query
     return sql.query`SELECT * FROM Participant`;

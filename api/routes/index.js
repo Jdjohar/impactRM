@@ -141,6 +141,40 @@ router.post("/api/v1/addParticipantData", async (req, res) => {
   }
 });
 
+
+
+router.get('/api/v1/viewParticipant', async (req, res) => {
+  try {
+    // Connect to the SQL Server database
+    const pool = await sql.connect(config);
+    const query = 'SELECT * FROM v_Participant order by id desc';
+    const result = await pool.request().query(query);
+
+    res.status(200).json({
+      status: 'success',
+      data: result.recordset,
+    });
+
+  console.log(result);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({
+      status: 'error',
+      message: 'Internal server error',
+      error: error.message,
+    });
+  } finally {
+    // Close the SQL connection pool
+    // await sql.close();
+  }
+});
+
+
+
+
+
+
+
 router.post("/api/v1/getParticipantDataByPin", async (req, res) => {
   try {
     await sql.connect(config);
