@@ -36,10 +36,6 @@ const ParticipantList = () => {
         { name: 'Shoelery', selector: row => row.Shoelery,wrap:true,compact: true,},
         { name: 'TongueLabel', selector: row => row.TongueLabel,wrap:true,compact: true,},
         { name: 'TongueText', selector: row => row.TongueText,wrap:true,compact: true,},
-
-
-
-
     ];
 
     const tableHeaderstyle = {
@@ -100,11 +96,8 @@ const ParticipantList = () => {
         }
     };
 
-
     return (
-
         <section className="mx-auto w-full max-w-8xl px-4 py-2">
-
             {FetchData ?
 
                 <div class="absolute right-1/2 bottom-1/2  transform translate-x-1/2 translate-y-1/2 ">
