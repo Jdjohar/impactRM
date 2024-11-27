@@ -127,14 +127,19 @@ router.post("/api/v1/addParticipantData", async (req, res) => {
 
      // Send an SMS using Twilio
      const messageDetails = {
-      body: `New participant data added: ${JSON.stringify(data)}`,
-      from: "+15714581785", // Your Twilio phone number
-      to: "+14168803321", // Recipient's phone number (replace with a variable if dynamic)
-    };
-    
+//      body: `New participant data added: ${JSON.stringify(data)}`,
+     // body: `WINNER ALERT! READY TO WALK WITH CONFIDENCE\n\nThank you for visiting\n\nPIN: ${(data.name)}`,
+      
+      body: `WINNER ALERT! READY TO WALK WITH CONFIDENCE?\n\nThank you for visiting Rubrik Booth #1948 at AWS re:Invent. You have been selected to receive a FREE pair of customized Nike Dunk shoes from Rubrik!\n\nPlease visit https://www.rubriknikegiveaway.com \nand enter the PIN code below to personalize your Nike Dunks and confirm your shipping details.\n\nPlease complete your order by December 12, 2024. Orders will be delivered in 2-4 weeks.\n\nYour personalized pin code is XXXXXX\n\nYou are receiving this message because you visited Rubrik Booth #1948 at AWS re:Invent. Please do not reply to this message.`,
 
+      from: "+15714581785", // Your Twilio phone number
+//      to: "+14168803321", // Recipient's phone number (replace with a variable if dynamic)
+      to: "+1"+data.phone, // Recipient's phone number (replace with a variable if dynamic)
+
+    };
     await client.messages.create(messageDetails);
     console.log("SMS sent successfully");
+    
     res.status(200).json({
       data: data,
       status: "success",
@@ -156,7 +161,7 @@ router.get('/api/v1/viewParticipant', async (req, res) => {
   try {
     // Connect to the SQL Server database
     const pool = await sql.connect(config);
-    const query = 'SELECT * FROM v_Participant order by id desc';
+    const query = 'npm';
     const result = await pool.request().query(query);
 
     res.status(200).json({
