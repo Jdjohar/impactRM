@@ -161,7 +161,7 @@ router.get('/api/v1/viewParticipant', async (req, res) => {
   try {
     // Connect to the SQL Server database
     const pool = await sql.connect(config);
-    const query = 'npm';
+    const query = 'SELECT * FROM v_Participant order by id desc';
     const result = await pool.request().query(query);
 
     res.status(200).json({
