@@ -119,6 +119,23 @@ router.get("/api/v1/sendWinnerSMS", async (req, res) => {
        console.log("SMS sent successfully");
 });
 
+
+router.get("/api/v1/sendShippedSMS", async (req, res) => {
+  const linktracking = req.query.linktracking;
+  const phone = req.query.phone
+  console.log("Sending SMS");
+  const messageDetails = {
+         body: "GET READY TO WALK WITH CONFIDENCE.\n\nYour FREE pair of customized Nike Dunks from Rubrik are on their way!\n\nPlease track your shipment here:\n\n" +  linktracking  + "\n\nThank you again for visiting Rubrik Booth#1948 at AWS re:Invent.\n\nYou are receiving this message because you visited Rubrik Booth #1948 at AWS re:Invent. Please do not reply to this message." ,
+
+         from: "+15714581785", // Your Twilio phone number
+         to: "+1"+phone, // Recipient's phone number (replace with a variable if dynamic)
+       };
+       await client.messages.create(messageDetails);
+       console.log("SMS sent successfully");
+});
+
+
+
 router.post("/api/v1/addParticipantData", async (req, res) => {
   try {
     await sql.connect(config);
