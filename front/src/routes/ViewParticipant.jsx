@@ -166,7 +166,7 @@ const ParticipantList = () => {
                                         </div>
                                     </div>
 
-                                    <div style={{ width: '70%' }}>
+                                    <div style={{ width: '100%' }}>
                                         <DataTable
                                             columns={columns}
                                             data={filteredData}
