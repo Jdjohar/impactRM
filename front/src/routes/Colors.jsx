@@ -32,8 +32,19 @@ const colorOptions = [
   { value: 'Fuchsia Fream', label: 'Fuchsia Fream', image: a33 },
   { value: 'Med Soft Pink', label: 'Med Soft Pink', image: a32 },
   { value: 'Pink Spell', label: 'Pink Spell', image: a31 },
-  { value: 'University Red', label: 'University Red', image: a30 }
+  { value: 'University Red', label: 'University Red', image: a30 },
+  { value: 'Diffused Taupe', label: 'Diffused Taupe', image: a30 }
 ];
+
+
+  // Filter colorOptions dynamically based on the component
+  const getFilteredOptions = (component) => {
+    if (component === 'BacktabLogo' || component === 'Laces') {
+      return colorOptions; // Include all colors for BacktabLogo and Laces
+    }
+    // Exclude "Diffused Taupe" for other components
+    return colorOptions.filter((option) => option.value !== 'Diffused Taupe');
+  };
 
 function ShoeColorSelector() {
   const [selections, setSelections] = useState({});
@@ -69,14 +80,14 @@ function ShoeColorSelector() {
     const participantData = JSON.parse(localStorage.getItem('data'));
     const id = JSON.parse(localStorage.getItem('id'));
     console.log(participantData);
-    
-        if (!participantData) {
-            // Redirect if no participant data is found
-            navigate("/");
-            return;
-        }
-        setUserId(id); // Set user ID
-    }, []);
+
+    if (!participantData) {
+      // Redirect if no participant data is found
+      navigate("/");
+      return;
+    }
+    setUserId(id); // Set user ID
+  }, []);
 
   // Generate JSON for selected options
   const handleSubmit = async (e) => {
@@ -87,20 +98,20 @@ function ShoeColorSelector() {
       Object.entries(selections).map(([key, value]) => [key, value?.value])
     );
 
-    console.log("jsonResult=",jsonResult); // Logs the JSON to the console
+    console.log("jsonResult=", jsonResult); // Logs the JSON to the console
 
-    if (Object.keys(jsonResult).length==99) {
+    if (Object.keys(jsonResult).length == 99) {
       alert("Please fill in all required fields.");
       return;
-    } 
+    }
 
-  if (Object.keys(jsonResult).length<11) {
-    setErrorMessage('Unfortunately, we\'re missing some elements of your order.');
-    return
-  } else {
-    setErrorMessage('');
-    //alert('Walk with Confidence!');
-  }
+    if (Object.keys(jsonResult).length < 11) {
+      setErrorMessage('Unfortunately, we\'re missing some elements of your order.');
+      return
+    } else {
+      setErrorMessage('');
+      //alert('Walk with Confidence!');
+    }
 
     try {
       const response = await fetch("https://impactrm.onrender.com/api/v1/colors", {
@@ -201,7 +212,8 @@ function ShoeColorSelector() {
               </label>
               <Select
                 id={`select-${component}`}
-                options={colorOptions}
+                options={getFilteredOptions(component)} // Use filtered options
+        
                 value={selections[component]}
                 onChange={(selectedOption) => handleChange(selectedOption, component)}
                 className="flex-1 w-full"
@@ -218,41 +230,60 @@ function ShoeColorSelector() {
                     backgroundColor: 'white',
                     borderColor: state.isFocused ? '#1a2a5e' : '#e5e7eb',
                     boxShadow: state.isFocused ? '0 0 0 1px #1a2a5e' : 'none',
-                    '&:hover': { borderColor: '#1a2a5e' }
+                    '&:hover': { borderColor: '#1a2a5e' },
+                    minHeight: '40px', // Ensure the control has a consistent height
+                    height: '40px', // Set a fixed height
+                  }),
+                  valueContainer: (provided) => ({
+                    ...provided,
+                    height: '40px', // Match the height of the control
+                    padding: '0 8px', // Adjust padding to center the content
+                    display: 'flex',
+                    alignItems: 'center', // Center align the content vertically
+                  }),
+                  singleValue: (provided) => ({
+                    ...provided,
+                    margin: 0, // Remove any margin that might cause misalignment
+                  }),
+                  input: (provided) => ({
+                    ...provided,
+                    margin: 0, // Remove input margin to prevent misalignment
+                    padding: 0, // Remove input padding
+                  }),
+                  indicatorsContainer: (provided) => ({
+                    ...provided,
+                    height: '40px', // Match the height of the control
+                  }),
+                  indicatorSeparator: () => ({ display: 'none' }), // Hide the separator
+                  dropdownIndicator: (provided) => ({
+                    ...provided,
+                    padding: '0', // Adjust padding for proper alignment
                   }),
                   option: (provided, state) => ({
                     ...provided,
                     backgroundColor: state.isSelected ? '#1a2a5e' : 'white',
                     color: state.isSelected ? 'white' : '#1a2a5e',
-                    '&:hover': { backgroundColor: state.isSelected ? '#1a2a5e' : '#f9fafb' }
+                    '&:hover': { backgroundColor: state.isSelected ? '#1a2a5e' : '#f9fafb' },
                   }),
-                  singleValue: (provided) => ({
-                    ...provided,
-                    color: '#1a2a5e'
-                  }),
-                  indicatorSeparator: () => ({ display: 'none' }),
-                  dropdownIndicator: (provided) => ({
-                    ...provided,
-                    padding: 0
-                  })
                 }}
               />
+
             </div>
           ))}
         </div>
-        
+
         <div className="flex justify-center pt-4">
-          
-            <img 
-            src={icon} 
-            className="w-100" 
+
+          <img
+            src={icon}
+            className="w-100"
             onClick={(e) => {
-              e.preventDefault(); 
-              handleSubmit(e); 
+              e.preventDefault();
+              handleSubmit(e);
             }}
             style={{ cursor: 'pointer' }}
-            />
-         
+          />
+
         </div>
       </div>
     </>

@@ -7,9 +7,7 @@ import clouds from "../../public/Clouds.png"; // Import the clouds image
 const Thanks = () => {
   return (
     <>
-    
-   
-    <div className="bg-[#202c5e] text-white min-h-screen flex flex-col cloud justify-center items-center">
+    <div className="bg-[#202c5e] text-white min-h-screen flex flex-col  justify-center items-center">
       <div className="max-w-lg text-center space-y-4">
         {/* Logo */}
         <div className="mb-6 px-8">

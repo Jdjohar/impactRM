@@ -21,7 +21,7 @@ export default function Product() {
           There are a variety of customization options available for your shoes.
         </p>
 
-        <div className="relative w-full aspect-square max-w-md mx-auto">
+        <div className="relative w-full  max-w-md mx-auto">
          
           
          <img src={shoe}  className="w-full"/>
@@ -30,7 +30,7 @@ export default function Product() {
         <div className="space-y-4">
           <p className="text-gray-700">
             If you want to preview color and location choices, you can visit Nike's Unlocked by You customization page by clicking{" "}
-            <a href="#" className="text-[#1a2a5e] font-bold hover:underline">
+            <a href="https://www.nike.com/u/nike-dunk-low-unlocked-by-you#Builder" target="_blank" className="text-[#1a2a5e] font-bold hover:underline">
               HERE
             </a>{" "}
             to simulate your choices.

@@ -70,11 +70,19 @@ const Choice = () => {
     }));
   };
 
-  const handleTextChange = (event) => {
-    setSelections({
-      ...selections,
-      tongueText: event.target.value
-    });
+  const handleTextChange = (e) => {
+    const inputValue = e.target.value;
+  
+    // Validation: Allow only alphanumeric characters (letters and numbers)
+    const alphanumericRegex = /^[a-zA-Z0-9]*$/;
+  
+    // Check if the input is valid
+    if (alphanumericRegex.test(inputValue) && inputValue.length <= 7) {
+      setSelections((prev) => ({
+        ...prev,
+        tongueText: inputValue, // Update the value if valid
+      }));
+    }
   };
 
   useEffect(() => {
@@ -267,7 +275,7 @@ const Choice = () => {
             <textarea
               value={selections.tongueText}
               onChange={handleTextChange}
-              maxLength={50}
+              maxLength={7}
               className="flex-1 border border-gray-300 p-2"
               placeholder="Please leave blank if you don't want text"
             />
