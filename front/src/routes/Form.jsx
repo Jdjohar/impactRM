@@ -88,6 +88,7 @@ export default function Form() {
                 type="text"
                 id="name"
                 value={formData.name}
+                required
                 onChange={handleChange}
                 placeholder="Full Name"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -134,6 +135,7 @@ export default function Form() {
               <input
                 type="text"
                 id="city"
+                required
                 value={formData.city}
                 onChange={handleChange}
                 placeholder="City"
@@ -150,6 +152,7 @@ export default function Form() {
               <input
                 type="text"
                 id="state"
+                required
                 value={formData.state}
                 onChange={handleChange}
                 placeholder="State"                
@@ -181,6 +184,7 @@ export default function Form() {
               </label>
               <input
                 type="tel"
+                required
                 id="phone"
                 value={formData.phone}
                 onChange={handleChange}
@@ -199,6 +203,7 @@ export default function Form() {
                 type="email"
                 id="email"
                 value={formData.email}
+                required
                 onChange={handleChange}
                 placeholder="Email address"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"

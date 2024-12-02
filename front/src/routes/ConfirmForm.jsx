@@ -183,6 +183,7 @@ export default function ConfirmForm() {
                             </label>
                             <input
                                 type="text"
+                                required
                                 id="state"
                                 value={formData.state}
                                 onChange={handleChange}
@@ -206,6 +207,7 @@ export default function ConfirmForm() {
                                 Phone
                             </label>
                             <input
+                                required
                                 type="tel"
                                 id="phone"
                                 value={formData.phone}
