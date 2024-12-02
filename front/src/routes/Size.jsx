@@ -105,14 +105,13 @@ export default function Size() {
 
       <div className="max-w-2xl mx-auto px-4 py-8">
         
+      <div className="relative w-full  max-w-md mx-auto">
+         <img src={shoe}  className="w-full"/>
+        </div>
+        
         <h2 className="text-xl font-bold text-[#1a2a5e] mb-6">
           Please select your shoe size:
         </h2>
-
-        <div className="relative w-full  max-w-md mx-auto">
-         <img src={shoe}  className="w-full"/>
-        </div>
-
 
         <div className="grid grid-cols-2 gap-4">
           {sizes.map((size) => (
