@@ -110,7 +110,7 @@ router.get("/api/v1/sendWinnerSMS", async (req, res) => {
   const phone = req.query.phone
   console.log("Sending SMS");
   const messageDetails = {
-         body: "WINNER ALERT! READY TO WALK WITH CONFIDENCE?\n\nThank you for visiting Rubrik Booth #1948 at AWS re:Invent. You have been selected to receive a FREE pair of customized Nike Dunk shoes from Rubrik!\n\nPlease visit https://www.rubriknikegiveaway.com/congratulation \nand enter the PIN code below to personalize your Nike Dunks and confirm your shipping details.\n\nPlease complete your order by December 12, 2024. Orders will be delivered in 2-4 weeks.\n\nYour personalized pin code is: " + pin +"\n\nYou are receiving this message because you visited Rubrik Booth #1948 at AWS re:Invent. Please do not reply to this message.",
+         body: "WINNER ALERT! READY TO WALK WITH CONFIDENCE?\n\nThank you for visiting Rubrik Booth #1948 at AWS re:Invent. You have been selected to receive a FREE pair of customized Nike Dunk shoes from Rubrik!\n\nPlease visit https://www.rubriknikegiveaway.com/winner \nand enter the PIN code below to personalize your Nike Dunks and confirm your shipping details.\n\nPlease complete your order by December 12, 2024. Orders will be delivered in 2-4 weeks.\n\nYour personalized pin code is: " + pin +"\n\nYou are receiving this message because you visited Rubrik Booth #1948 at AWS re:Invent. Please do not reply to this message.",
    
          from: "+15714581785", // Your Twilio phone number
          to: "+1"+phone, // Recipient's phone number (replace with a variable if dynamic)
