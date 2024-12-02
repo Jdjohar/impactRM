@@ -23,7 +23,7 @@ import shoe from "../../public/LabeledShoe.png";
 const colorOptions = [
   { value: 'Black', label: 'Black', image: a41 },
   { value: 'White', label: 'White', image: a42 },
-  { value: 'Wolf Gray', label: 'Wolf Gray', image: a40 },
+  { value: 'Wolf Grey', label: 'Wolf Grey', image: a40 },
   { value: 'Moss', label: 'Moss', image: a39 },
   { value: 'Sesame', label: 'Sesame', image: a38 },
   { value: 'Sundail', label: 'Sundail', image: a37 },
