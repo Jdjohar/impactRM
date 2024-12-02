@@ -227,22 +227,6 @@ export default function ConfirmForm() {
                             />
                         </div>
                         
-                        <div>
-                            <label
-                                htmlFor="linkTracking"
-                                className="block text-sm font-medium text-gray-700 mb-1"
-                            >
-                                Tracking Link:
-                            </label>
-                            <input
-                                type="text"
-                                id="linkTracking"
-                                value={formData.linkTracking}
-                                onChange={handleChange}
-                
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 width:500px"
-                            />
-                            </div>
 
 
                         <button
