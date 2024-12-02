@@ -3,6 +3,7 @@ import { ChevronDown } from 'lucide-react';
 import Select from 'react-select';
 import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
+import shoe from "../../public/LabeledShoe.png";
 
 const midSoleOptions = [
   { value: 'Black', label: 'Black' },
@@ -158,6 +159,12 @@ const Choice = () => {
     <>
       <Header />
       <div className="max-w-2xl mx-auto px-4 py-8">
+
+      <div className="relative w-full  max-w-md mx-auto">
+         <img src={shoe}  className="w-full"/>
+        </div>
+
+
         <h1 className="text-xl font-bold text-[#1a2a5e] text-center mb-8">
           Please make the following choices that will apply to your shoes:
         </h1>
@@ -168,6 +175,9 @@ const Choice = () => {
             {errorMessage}
           </div>
         )}
+
+
+
 
         <div className="space-y-4">
           {/* Midsole - Using Buttons instead of Select */}
@@ -276,6 +286,7 @@ const Choice = () => {
               value={selections.tongueText}
               onChange={handleTextChange}
               maxLength={7}
+              pattern="/^[a-z0-9]+$/i"
               className="flex-1 border border-gray-300 p-2"
               placeholder="Please leave blank if you don't want text"
             />

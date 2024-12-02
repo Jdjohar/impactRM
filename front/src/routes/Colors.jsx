@@ -17,6 +17,7 @@ import a40 from "../../public/colors/Asset 40.png";
 import a41 from "../../public/colors/Asset 41.png";
 import a42 from "../../public/colors/Asset 42.png";
 import Header from '../components/Header';
+import shoe from "../../public/LabeledShoe.png";
 
 // Dropdown color options
 const colorOptions = [
@@ -193,6 +194,11 @@ function ShoeColorSelector() {
     <>
       <Header />
       <div className="max-w-2xl mx-auto px-4 py-8">
+
+      <div className="relative w-full  max-w-md mx-auto">
+          <img src={shoe}  className="w-full"/>
+        </div>
+
         <h1 className="text-xl font-bold text-[#1a2a5e] text-center mb-8">
           For each of the options below, please select the color choices for your shoes.
         </h1>
@@ -202,6 +208,7 @@ function ShoeColorSelector() {
             {errorMessage}
           </div>
         )}
+
 
 
         <div className="space-y-4">

@@ -22,8 +22,6 @@ export default function Product() {
         </p>
 
         <div className="relative w-full  max-w-md mx-auto">
-         
-          
          <img src={shoe}  className="w-full"/>
         </div>
 
